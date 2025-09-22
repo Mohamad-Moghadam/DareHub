@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'rest_framework',
     'user',
+    'challenge',
 ]
 
 MIDDLEWARE = [
@@ -103,9 +104,9 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
+    'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ]
 }
 
-AUTH_USER_MODEL = 'user.customUser'
+AUTH_USER_MODEL = 'user.CustomUser'
