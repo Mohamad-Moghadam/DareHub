@@ -7,4 +7,4 @@ class SignUpView(CreateAPIView):
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
     queryset = CustomUser.objects.all()
-
+    
