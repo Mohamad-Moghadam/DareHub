@@ -1,7 +1,7 @@
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView
-from .serializers import ChallengeSerializer
+from .serializers import ChallengeSerializer, ProgressionSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from .models import Challenge
+from .models import Challenge, Progression
 from rest_framework.response import Response
 from rest_framework import status
 
@@ -35,6 +35,18 @@ class InterestedApiView(UpdateAPIView):
         challenge.refresh_from_db()
         serializer = self.get_serializer(challenge)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
-
         return challenge
+
+class DoneChallenge(UpdateAPIView):
+    serializer_class = ProgressionSerializer
+    permission_classes = [IsAuthenticated]
+    queryset = Challenge.objects.all()
+    lookup_field = 'id'
+
+    def update(self, request, *args, **kwargs):
+        progression = self.get_object()
+        progression.completed = True
+        Progression.user = self.request.user
+        progression.save()
+        serializer = self.get_serializer(progression)
+        return Response(serializer.data, status=status.HTTP_200_OK)

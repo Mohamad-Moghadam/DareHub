@@ -8,11 +8,17 @@ class Challenge(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     users = models.ManyToManyField(CustomUser, blank=True, related_name='challenges')
     creator = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='created_challenges')
-
-
+    
     vetbose_name = 'Challenge'
     verbose_name_plural = 'Challenges'
 
     def create(self):
         creator = CustomUser.objects.get(id=self._id)
         self.save()
+
+class Progression(models.Model):
+    challenge = models.ForeignKey(Challenge, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    completed = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
